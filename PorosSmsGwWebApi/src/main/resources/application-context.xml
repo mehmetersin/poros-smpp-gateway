@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+
+	<context:annotation-config />
+	<bean
+		class="org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor" />
+
+
+	<bean id="placeholderConfig"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+
+		<property name="locations">
+			<list>
+				<value>classpath:datasource.properties</value>
+				<value>classpath:mainconfig.properties</value>
+			</list>
+		</property>
+	</bean>
+
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${driverClassName}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+		<property name="initialSize" value="${initialSize}" />
+		<property name="maxActive" value="${maxActive}" />
+		<property name="minIdle" value="${minIdle}" />
+	</bean>
+
+
+
+	<bean id="mainConfig" class="com.poros.smsgw.util.MainConfig">
+		<property name="maxRetryCount" value="${maxRetryCount}" />
+		<property name="blackHourStartHour" value="${blackHourStartHour}" />
+		<property name="blackHourStopHour" value="${blackHourStopHour}" />
+	</bean>
+
+
+
+	<import resource="scheduler.xml" />
+	<import resource="snmp.xml" />
+
+
+
+
+	<!-- Beans Configuration -->
+
+	<bean id="smppAdapter" class="com.poros.smsgw.smpp.SmppAdapterImpl"
+		init-method="init">
+		<property name="messageStoreAdapter" ref="messageStoreAdapter" />
+	</bean>
+
+
+
+	<bean id="messageStoreAdapter" class="com.poros.smsgw.ms.MessageStoreAdapterImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="userAdapter" class="com.poros.smsgw.user.UserAdapterImpl">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<bean id="senderEngine" class="com.poros.smsgw.engine.MessageSenderEngine">
+		<property name="smppAdapter" ref="smppAdapter" />
+		<property name="messageStoreAdapter" ref="messageStoreAdapter" />
+		<property name="mainConfig" ref="mainConfig" />
+
+	</bean>
+
+	<bean id="autoGateway" class="com.poros.smsgw.smpp.gateway.AutoReconnectGateway" />
+
+
+
+
+
+</beans>

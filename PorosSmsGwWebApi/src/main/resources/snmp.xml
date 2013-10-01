@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+<!--
+	<bean id="configBean" class="com.poros.smsgw.smpp.gateway.ConfigBean">
+		<property name="remoteipaddress" value="10.248.4.197" />
+		<property name="remoteport" value="16000" />
+		<property name="systemid" value="VIP SMS-test" />
+		<property name="password" value="otpsmpp" />
+		<property name="systemtype" value="test" />
+		<property name="addressrange" value="8080" />
+		<property name="reconnectInterval" value="10000" />
+
+	</bean>
+	
+-->	
+	
+	
+  <!--
+
+        <bean id="configBean" class="com.poros.smsgw.smpp.gateway.ConfigBean">
+                <property name="remoteipaddress" value="localhost" />
+                <property name="remoteport" value="16000" />
+                <property name="systemid" value="smppclient1" />
+                <property name="password" value="password" />
+                <property name="systemtype" value="test" />
+                <property name="addressrange" value="8080" />
+                <property name="reconnectInterval" value="10000" />
+
+        </bean>
+-->
+         <bean id="configBean" class="com.poros.smsgw.smpp.gateway.ConfigBean">
+                <property name="remoteipaddress" value="212.65.133.106" />
+                <property name="remoteport" value="6101" />
+                <property name="systemid" value="smpptest" />
+                <property name="password" value="sm45pp9t" />
+                <property name="systemtype" value="smpptest" />
+                <property name="addressrange" value="8080" />
+                <property name="reconnectInterval" value="10000" />
+
+        </bean>
+	
+
+</beans>
